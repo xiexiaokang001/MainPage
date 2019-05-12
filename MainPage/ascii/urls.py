@@ -2,6 +2,6 @@
 from django.urls import path
 from . import views
 urlpatterns = [
-    path('',views.ascii),
-    path('asciisubmit', views.asciisubmit)
+    path('plus',views.AsciiViewPlus.as_view()),
+    path('minus',views.AsciiViewMinus.as_view()),
 ]
