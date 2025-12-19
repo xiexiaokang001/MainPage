@@ -31,8 +31,24 @@ class AsciiViewMinus(View):
     def post(self, request):
         form = AsciiFrom(request.POST)
         if form.is_valid():
-            input = form.cleaned_data.get('input')
-            return HttpResponse(input)
+            input_str = form.cleaned_data.get('input')
+            result = ""
+            for char in input_str:
+                result += hex(ord(char))[2:] + " "
+            return render(request, 'char_to_ascii.html', {'result': result.strip()})
+        else:
+            print(form.errors.get_json_data)
+            return HttpResponse('fail')
+
+class AsciiViewReverse(View):
+    def get(self,request):
+        return render(request, 'string_reverse.html')
+    def post(self, request):
+        form = AsciiFrom(request.POST)
+        if form.is_valid():
+            input_str = form.cleaned_data.get('input')
+            result = input_str[::-1]
+            return render(request, 'string_reverse.html', {'result': result})
         else:
             print(form.errors.get_json_data)
             return HttpResponse('fail')
