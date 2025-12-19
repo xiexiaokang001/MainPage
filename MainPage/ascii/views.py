@@ -18,7 +18,7 @@ class AsciiViewPlus(View):
                     result += str(char)
                 else:
                     result += dst
-            result_dict = {'result':result}
+            result_dict = {'source': input, 'result': result}
             return render(request,'ascii_to_char.html',context=result_dict)
         else:
             print(form.errors.get_json_data)
@@ -35,7 +35,7 @@ class AsciiViewMinus(View):
             result = ""
             for char in input_str:
                 result += hex(ord(char))[2:] + " "
-            return render(request, 'char_to_ascii.html', {'result': result.strip()})
+            return render(request, 'char_to_ascii.html', {'source': input_str, 'result': result.strip()})
         else:
             print(form.errors.get_json_data)
             return HttpResponse('fail')
@@ -48,7 +48,7 @@ class AsciiViewReverse(View):
         if form.is_valid():
             input_str = form.cleaned_data.get('input')
             result = input_str[::-1]
-            return render(request, 'string_reverse.html', {'result': result})
+            return render(request, 'string_reverse.html', {'source': input_str, 'result': result})
         else:
             print(form.errors.get_json_data)
             return HttpResponse('fail')
